@@ -12,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -25,7 +22,7 @@ public class CardsController {
 
     private ICardsService iCardsService;
 
-    @RequestMapping("/create")
+    @PostMapping("/create")
     public ResponseEntity<ResponseDto> createCard(@RequestParam
                                                       @Pattern(regexp = "^[0-9]{10}$", message = "Mobile number must be 10 digits" )
                                                       String mobileNumber) {
@@ -33,14 +30,14 @@ public class CardsController {
        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(CardsConstants.STATUS_201, CardsConstants.MESSAGE_201));
     }
 
-    @RequestMapping("/fetch")
+    @GetMapping("/fetch")
     public ResponseEntity<CardsDto> fetchCardsDetails(@RequestParam
                                                           @Pattern(regexp = "^[0-9]{10}$", message = "Mobile number must be 10 digits" )
                                                           String mobileNumber) {
         CardsDto cardsDto = iCardsService.fetchCardsDetails(mobileNumber);
         return ResponseEntity.status(HttpStatus.OK).body(cardsDto);
     }
-
+    @PutMapping("/update")
     public ResponseEntity<ResponseDto> updateCardDetails(@Valid  @RequestBody CardsDto cardsDto) {
         boolean isUpdated = iCardsService.updateCard(cardsDto);
         if(isUpdated) {
@@ -51,6 +48,7 @@ public class CardsController {
         }
     }
 
+    @DeleteMapping("/delete")
     public ResponseEntity<ResponseDto> deleteCardDetails(@RequestParam
                                                          @Pattern(regexp = "^[0-9]{10}$", message = "Mobile number must be 10 digits" )
                                                          String mobileNumber) {
