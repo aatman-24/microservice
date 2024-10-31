@@ -10,6 +10,7 @@ import com.micro.cards.service.ICardsService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 
@@ -42,6 +43,8 @@ public class CardsService implements ICardsService {
                 () -> new ResourceNotFoundException("Card", "CardNumber", cardsDto.getCardNumber())
         );
         CardsMapper.mapToCards(cardsDto, cards);
+        cards.setUpdatedAt(LocalDateTime.now());
+        cards.setUpdatedBy("anonymous");
         cardsRepository.save(cards);
         return true;
     }
@@ -64,6 +67,14 @@ public class CardsService implements ICardsService {
         newCard.setTotalLimit(CardsConstants.NEW_CARD_LIMTT);
         newCard.setAmountUsed(0L);
         newCard.setAvailableAmount(CardsConstants.NEW_CARD_LIMTT);
+
+        // set audit fields
+
+        newCard.setCreatedAt(LocalDateTime.now());
+        newCard.setCreatedBy("anonymous");
+
+
+
         return cardsRepository.save(newCard);
     }
 }
