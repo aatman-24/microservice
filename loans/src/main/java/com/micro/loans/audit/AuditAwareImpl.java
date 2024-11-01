@@ -1,4 +1,4 @@
-package com.micro.cards.audit;
+package com.micro.loans.audit;
 
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
@@ -9,6 +9,6 @@ import java.util.Optional;
 public class AuditAwareImpl implements AuditorAware<String> {
     @Override
     public Optional<String> getCurrentAuditor() {
-        return Optional.of("CARDS_MS");
+        return Optional.of("LOANS_MS");
     }
 }
