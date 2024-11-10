@@ -1,12 +1,14 @@
 package com.micro.loans.controller;
 
 import com.micro.loans.constant.LoansConstants;
+import com.micro.loans.dto.LoansConstantInfoDto;
 import com.micro.loans.dto.LoansDto;
 import com.micro.loans.dto.ResponseDto;
 import com.micro.loans.service.ILoansService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +16,18 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/loans", produces = MediaType.APPLICATION_JSON_VALUE)
-@AllArgsConstructor
+@RequestMapping(path = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @Validated
 public class LoansController {
 
     ILoansService loansService;
+
+    public LoansController(ILoansService loansService) {
+        this.loansService = loansService;
+    }
+
+    @Autowired
+    private LoansConstantInfoDto loansConstantInfoDto;
 
     @PostMapping(path = "/create")
     public ResponseEntity<ResponseDto> createLoan(@RequestParam
@@ -59,5 +67,10 @@ public class LoansController {
         else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDto(LoansConstants.STATUS_200, LoansConstants.MESSAGE_200));
         }
+    }
+
+    @GetMapping("/build-info")
+    public ResponseEntity<LoansConstantInfoDto> fetchCurrentBuildVersion() {
+        return ResponseEntity.status(HttpStatus.OK).body(loansConstantInfoDto);
     }
 }

@@ -2,7 +2,7 @@ server:
     port: 8090
 spring:
     application:
-        name: 'cards'
+        name: 'loans'
     datasource:
         url: jdbc:h2:mem:testdb
         driver-class-name: org.h2.Driver
