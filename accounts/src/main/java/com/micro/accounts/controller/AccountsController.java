@@ -37,12 +37,6 @@ public class AccountsController {
         this.accountsService = accountsService;
     }
 
-    @Value("${build.version}")
-    private String buildVersion;
-
-    @Autowired
-    private Environment environment;
-
     @Autowired
     private AccountsConstantInfoDto accountsConstantInfoDto;
 
@@ -168,7 +162,6 @@ public class AccountsController {
     )
     @GetMapping("/build-info")
     public ResponseEntity<AccountsConstantInfoDto> fetchCurrentBuildVersion() {
-        System.out.println(environment.getProperty("PATH"));
         return ResponseEntity.status(HttpStatus.OK).body(accountsConstantInfoDto);
     }
 }
