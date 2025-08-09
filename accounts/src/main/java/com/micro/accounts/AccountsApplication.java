@@ -1,10 +1,13 @@
 package com.micro.accounts;
 
+import com.micro.accounts.dto.AccountsConstantInfoDto;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
+@EnableConfigurationProperties(value = {AccountsConstantInfoDto.class})
 @EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
 public class AccountsApplication {
 
